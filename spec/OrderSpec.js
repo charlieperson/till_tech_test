@@ -1,7 +1,7 @@
 describe('Order', function() {
   var order, billKlass;
 
-  beforeEach(function(){
+  beforeEach(function() {
     order = new Order(billKlass);
     function billKlass() {
       this.total = function(items){};
@@ -27,10 +27,9 @@ describe('Order', function() {
   });
 
   it('can confirm an order', function() {
-    spyOn(order.bill, "total");
+    spyOn(order.bill, 'total');
     order.add('Cortado', 1);
     order.confirm();
-    console.log(order.bill);
     expect(order.bill.total).toHaveBeenCalledWith({ Cortado: 1 });
   });
 });

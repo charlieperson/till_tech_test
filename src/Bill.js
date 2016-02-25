@@ -30,9 +30,8 @@ Bill.prototype.total = function(items) {
   for (var name in items) {
     var lineTotal = this.menu[name] * items[name];
     this.price += lineTotal;
-    var line = [name, items[name], lineTotal].join(" ");
-    // var line = [name, "x", items[name], "=", lineTotal].join(
-    this.receipt.push(line);
+    var line = [name, " x ", items[name], " = $", lineTotal].join("");
+    this.receipt.addLine(line);
   }
   console.log('Your total is $' + this.price);
   return this.price;

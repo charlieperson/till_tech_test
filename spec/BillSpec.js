@@ -3,7 +3,9 @@ describe('Bill', function() {
 
   beforeEach(function() {
     bill = new Bill(receiptKlass);
-    function receiptKlass() {}
+    function receiptKlass() {
+      this.addLine = function(line){};
+    }
     items = { 'Tea': 4, "Cortado": 2 };
   });
 
@@ -11,9 +13,16 @@ describe('Bill', function() {
     expect(bill.total(items)).toEqual(20);
   });
 
-  it('generates lines for the receipt', function() {
+  // it('generates lines for the receipt', function() {
+  //   bill.total(items);
+  //   expect(bill.receipt).toEqual([ 'Tea x 4 = $ 12', 'Cortado x 2 = $ 8' ]);
+  // });
+
+  it('adds lines to receipt while calulating total', function(){
+    spyOn(bill.receipt, 'addLine');
     bill.total(items);
-    expect(bill.receipt).toEqual(['Tea 4 12', 'Cortado 2 8']);
+    expect(bill.receipt.addLine).toHaveBeenCalledWith("Tea x 4 = $12");
+    expect(bill.receipt.addLine).toHaveBeenCalledWith('Cortado x 2 = $8');
   });
 
   it('allows customers to pay for their bill', function() {
