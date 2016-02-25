@@ -1,6 +1,10 @@
-function Order(){
-  this.bill = new Bill();
-  this.items = [];
+function Order(billKlass){
+  if(billKlass) {
+    this.bill = new billKlass();
+  } else {
+    this.bill = new Bill();
+  }
+  this.items = {};
   this.menu =
   [
     {
@@ -15,8 +19,8 @@ function Order(){
           "Single Espresso": 2.05,
           "Double Espresso": 3.75,
           "Americano": 3.75,
-          "Cortado": 4.55,
-          "Tea": 3.65,
+          "Cortado": 4,
+          "Tea": 3,
           "Choc Mudcake": 6.40,
           "Choc Mousse": 8.20,
           "Affogato": 14.80,
@@ -31,15 +35,13 @@ function Order(){
 }
 
 Order.prototype.add = function(item, qty){
-  choice = {};
-  choice[item]= qty;
   if(item in this.menu[0].prices[0]) {
-    this.items.push(choice);
+    this.items[item]= qty;
   } else {
     throw "Item is not on the menu";
   }
 };
 
 Order.prototype.confirm = function() {
-  this.bill.calculateTotal();
+  this.bill.total(this.items);
 };
