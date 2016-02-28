@@ -6,6 +6,7 @@ function Bill(receiptKlass){
   }
   this.price = 0;
   this.change = 0;
+  this.tax = 0;
   this.menu =
   {
     "Cafe Latte": 4.75,
@@ -31,18 +32,20 @@ Bill.prototype.total = function(items) {
     var lineTotal = this.menu[name] * items[name];
     this.price += lineTotal;
     var line = [name, " x ", items[name], " = $", lineTotal].join("");
-    this.receipt.addLine(line);
+    this.receipt.addPurchase(line);
   }
-  console.log('Your total is $' + this.price);
-  return this.price;
+  this.tax = this.price * 0.0864;
+  this.total = this.price + this.tax;
+  this.receipt.setInfo(this.price, this.total);
+  return this.total;
 };
 
 Bill.prototype.pay = function(amount){
   if(amount < this.price) {
-    var short = this.price - amount;
+    var short = (this.price + this.tax) - amount;
     throw "Sorry mate, you are $" + short + " short...";
   } else {
-    this.change = amount - this.price;
+    this.change = amount - (this.price + this.tax);
     console.log('Thank you, your change is $' + this.change);
   }
 };
