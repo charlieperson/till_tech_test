@@ -7,7 +7,7 @@ Receipt.prototype.addPurchase = function(line){
 };
 
 Receipt.prototype.printIt = function(){
-  console.log(this.information.purchases);
+  console.log(this.information);
   console.log('price: ' + this.information.price);
   console.log('tax: ' + this.information.tax);
   console.log('total: ' + this.information.total);
